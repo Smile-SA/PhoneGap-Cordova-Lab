@@ -1,36 +1,10 @@
 /**
  * Google Analytics for PhoneGap/Cordova, in a JavaScript Way<br>
- * Add http://www.google-analytics* to the project whitelist external hosts if needed
+ * 
+ * Add http://www.google-analytics* to your project whitelist external hosts if
+ * needed<br>
+ * Usage sample : cordovaLab.ga.html
  */
-
-// Usage sample : index.html
-//<!DOCTYPE html>
-//<html>
-//  	<head>
-//	      <title></title>
-//	      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
-//	      <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
-//	      <script type="text/javascript" charset="utf-8" src="cordovaLab.ga.js"></script>
-//	      <script type="text/javascript" charset="utf-8">
-//	          // Wait for PhoneGap to load
-//	          document.addEventListener("deviceready", onDeviceReady, false);
-//	          // PhoneGap is ready
-//	          function onDeviceReady() {
-//	              //Your Account ID. e.g : UA-25104897-1
-//	              cordovaLab.ga.setAccount('UA-26859624-1');
-//	              //The web site address you chose when creating your GA account. e.g :
-//	              //www.mywebsite.com
-//	              cordovaLab.ga.setSiteAddress('www.mywebsite.com');
-//	              //Track a page
-//	              cordovaLab.ga.track('cordovaLab test page');
-//	          }
-//          </script>
-//     </head>
-//     <body>
-//         CordovaLab Test
-//     </body>
-//</html>
-
 
 // namespacing
 var cordovaLab = {};
@@ -68,23 +42,20 @@ cordovaLab.ga = (function() {
 	$.track = function(page) {
 		var utmac = $.accountID;
 		var utmhn = $.siteAddress;
-
+		var utmn = Math.random() * 1000000000;
+		var domainHash = "%3D1";
 		var currentDate = new Date();
 		var currentTimeStamp = currentDate.getTime();
+		var timestampOfPreviousVisit = currentTimeStamp;
+		var timestampOfCurrentVisit = currentTimeStamp;
 		var timestampOfFirstVisit = currentTimeStamp;
 		// first track we store date of use
 		if (localStorage.getItem('cordovaLab.ga.timestampOfFirstVisit')) {
-			timestampOfFirstVisit = localStorage
-					.getItem('cordovaLab.ga.timestampOfFirstVisit');
+			timestampOfFirstVisit = localStorage.getItem('cordovaLab.ga.timestampOfFirstVisit');
 		} else {
-			localStorage.setItem('cordovaLab.ga.timestampOfFirstVisit',
-					timestampOfFirstVisit);
+			localStorage.setItem('cordovaLab.ga.timestampOfFirstVisit', timestampOfFirstVisit);
 		}
-
-		var utmn = Math.random() * 1000000000;
-
-		var domainHash = "%3D1";
-
+		
 		var visitorId;
 		if (device && device.uuid) {
 			visitorId = hashCode(device.uuid);
@@ -92,28 +63,14 @@ cordovaLab.ga = (function() {
 			visitorId = "1";
 		}
 
-		var timestampOfPreviousVisit = currentTimeStamp;
-		var timestampOfCurrentVisit = currentTimeStamp;
-
 		var visitCount = "1";
-		var _utma = domainHash + "." + visitorId + "." + timestampOfFirstVisit
-				+ "." + timestampOfPreviousVisit + "."
+		var _utma = domainHash + "." + visitorId + "." + timestampOfFirstVisit + "." + timestampOfPreviousVisit + "."
 				+ timestampOfCurrentVisit + "." + visitCount;
 		var utmsr = window.innerWidth + "x" + window.innerHeight;
 
-		var ga_url = "http://www.google-analytics.com/__utm.gif?utmwv=5.2.3&utmn="
-				+ utmn
-				+ "&utmhn="
-				+ utmhn
-				+ "&utmcs=ISO-8859-1&utmul=fr&utmdt="
-				+ page
-				+ "&utmr=-&utmp="
-				+ page
-				+ "&utmac="
-				+ utmac
-				+ "&utmcc=__utma"
-				+ _utma
-				+ "&utmu=qhC~&utmsr=" + utmsr;
+		var ga_url = "http://www.google-analytics.com/__utm.gif?utmwv=5.2.3&utmn=" + utmn + "&utmhn=" + utmhn
+				+ "&utmcs=ISO-8859-1&utmul=fr&utmdt=" + page + "&utmr=-&utmp=" + page + "&utmac=" + utmac
+				+ "&utmcc=__utma" + _utma + "&utmu=qhC~&utmsr=" + utmsr;
 
 		var ga_img = document.createElement('img');
 		ga_img.setAttribute('style', 'display:none');
@@ -123,5 +80,4 @@ cordovaLab.ga = (function() {
 	};
 
 	return $;
-
 })();
