@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  	<head>
+	      <title></title>
+	      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+	      <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+	      <script type="text/javascript" charset="utf-8" src="cordovaLab.ga.js"></script>
+	      <script type="text/javascript" charset="utf-8">
+	          // Wait for PhoneGap to load
+	          document.addEventListener("deviceready", onDeviceReady, false);
+	          // PhoneGap is ready
+	          function onDeviceReady() {
+	              //Your Account ID. e.g : UA-25104897-1
+	              cordovaLab.ga.setAccount('UA-26859624-1');
+	              //The web site address you chose when creating your GA account. e.g :
+	              //www.mywebsite.com
+	              cordovaLab.ga.setSiteAddress('www.mywebsite.com');
+	              //Track a page
+	              cordovaLab.ga.track('cordovaLab test page');
+	          }
+          </script>
+     </head>
+     <body>
+         CordovaLab Test
+     </body>
+</html>
